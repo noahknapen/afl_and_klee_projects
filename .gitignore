@@ -1,0 +1,6 @@
+project-description.pdf
+submission/
+challenge-1-logmein/build_klee/*
+challenge-1-logmein/out_dir/*
+challenge-2-json-parser/build/*
+harness_challenge_3/build/*
