@@ -53,6 +53,7 @@ const defaults = {
   // option to hide the flags - must be used with separateDialCode, or allowDropdown=false
   showFlags: true,
   // use full screen popup instead of dropdown for country list
+  /*
   useFullscreenPopup:
     // we cannot just test screen size as some smartphones/website meta tags will report desktop
     // resolutions
@@ -60,6 +61,7 @@ const defaults = {
     /Android.+Mobile|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
       navigator.userAgent
     ) || window.innerWidth <= 500,
+    */
   // specify the path to the libphonenumber script to enable validation/formatting
   utilsScript: ""
 };
@@ -120,7 +122,7 @@ class Iti {
         : value;
     });
 
-    this.hadInitialPlaceholder = Boolean(input.getAttribute("placeholder"));
+    //this.hadInitialPlaceholder = Boolean(input.getAttribute("placeholder"));
   }
 
   _init() {
@@ -1462,7 +1464,7 @@ class Iti {
 
   // get the input val, adding the dial code if separateDialCode is enabled
   _getFullNumber() {
-    const val = this.telInput.value.trim();
+    const val = this.telInput.trim();
     const { dialCode } = this.selectedCountryData;
     let prefix;
     const numericVal = this._getNumeric(val);
@@ -1599,37 +1601,28 @@ class Iti {
 
   // get the extension from the current number
   getExtension() {
-    if (window.intlTelInputUtils) {
-      return intlTelInputUtils.getExtension(
-        this._getFullNumber(),
-        this.selectedCountryData.iso2
-      );
-    }
-    return "";
+    return this.getExtension(
+      this._getFullNumber(),
+      this.selectedCountryData.iso2
+    );
   }
 
   // format the number to the given format
   getNumber(format) {
-    if (window.intlTelInputUtils) {
       const { iso2 } = this.selectedCountryData;
-      return intlTelInputUtils.formatNumber(
+      return this.formatNumber(
         this._getFullNumber(),
         iso2,
         format
       );
-    }
-    return "";
   }
 
   // get the type of the entered number e.g. landline/mobile
   getNumberType() {
-    if (window.intlTelInputUtils) {
-      return intlTelInputUtils.getNumberType(
+      return this.getNumberType(
         this._getFullNumber(),
         this.selectedCountryData.iso2
       );
-    }
-    return -99;
   }
 
   // get the country data for the currently selected flag
@@ -1649,17 +1642,13 @@ class Iti {
   // validate the input val - assumes the global function isValidNumber (from utilsScript)
   isValidNumber() {
     const val = this._getFullNumber().trim();
-    return window.intlTelInputUtils
-      ? intlTelInputUtils.isValidNumber(val, this.selectedCountryData.iso2)
-      : null;
+    return this.isValidNumber(val, this.selectedCountryData.iso2)
   }
 
   // check if input val is possible number (weaker validation, but more future-proof) - assumes the global function isPossibleNumber (from utilsScript)
   isPossibleNumber() {
     const val = this._getFullNumber().trim();
-    return window.intlTelInputUtils
-      ? intlTelInputUtils.isPossibleNumber(val, this.selectedCountryData.iso2)
-      : null;
+    return this.isPossibleNumber(val, this.selectedCountryData.iso2)
   }
 
   // update the selected flag, and update the input val accordingly
@@ -1690,6 +1679,7 @@ class Iti {
     this._updatePlaceholder();
   }
 }
+module.exports = Iti
 
 /********************
  *  STATIC METHODS
