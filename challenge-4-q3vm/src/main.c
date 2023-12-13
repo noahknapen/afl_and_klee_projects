@@ -36,16 +36,11 @@ int main(int argc, char** argv)
 {
     vm_t vm;
     int  retVal = -1;
-    int  imageSize;
-
-    if (argc < 2)
-    {
-        printf("No virtual machine supplied. Example: q3vm bytecode.qvm\n");
-        return retVal;
-    }
+    int  imageSize; 
 
     /* load virtual machine image from file */
-    char*    filepath = argv[1];
+    char*    filepath;
+    fgets(filepath, 100, stdin);
     uint8_t* image    = loadImage(filepath, &imageSize);
     if (!image)
     {
