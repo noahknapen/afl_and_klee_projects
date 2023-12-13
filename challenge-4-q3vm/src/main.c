@@ -172,4 +172,3 @@ intptr_t systemCalls(vm_t* vm, intptr_t* args)
     }
     return 0;
 }
-
