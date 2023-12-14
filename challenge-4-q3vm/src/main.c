@@ -30,7 +30,7 @@ intptr_t systemCalls(vm_t* vm, intptr_t* args);
    @param[in] filepath Path to virtual machine binary file.
    @param[out] size File size in bytes is written to this memory location.
    @return Pointer to virtual machine image file (raw bytes). */
-uint8_t* loadImage(const char* filepath, int* size);
+uint8_t* loadImage(char* filepath, int* size);
 
 int main(int argc, char** argv)
 {
@@ -39,9 +39,9 @@ int main(int argc, char** argv)
     int  imageSize; 
 
     /* load virtual machine image from file */
-    char*    filepath;
+    char filepath[100];
     fgets(filepath, 100, stdin);
-    uint8_t* image    = loadImage(filepath, &imageSize);
+    uint8_t* image = loadImage(filepath, &imageSize);
     if (!image)
     {
         return -1;
@@ -93,14 +93,21 @@ void Com_free(void* p, vm_t* vm, vmMallocType_t type)
     free(p);
 }
 
-uint8_t* loadImage(const char* filepath, int* size)
+uint8_t* loadImage(char* filepath, int* size)
 {
     FILE*    f;            /* bytecode input file */
     uint8_t* image = NULL; /* bytecode buffer */
     int      sz;           /* bytecode file size */
 
+    // Remove the newline character from the end of the filename
+    size_t filepath_len = strlen(filepath);
+    if (filepath_len > 0 && filepath[filepath_len - 1] == '\n')
+    {
+        filepath[filepath_len - 1] = '\0';
+    }
+
     *size = 0;
-    f     = fopen(filepath, "rb");
+    f = fopen(filepath, "rb");
     if (!f)
     {
         fprintf(stderr, "Failed to open file %s.\n", filepath);

@@ -1,0 +1,1 @@
+/usr/local/bin/afl-clang-fast -rdynamic CMakeFiles/challenge4.dir/src/main.o CMakeFiles/challenge4.dir/src/vm.o -o challenge4 

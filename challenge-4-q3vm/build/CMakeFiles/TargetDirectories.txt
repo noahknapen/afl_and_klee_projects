@@ -1,0 +1,3 @@
+/mnt-host/build/CMakeFiles/challenge4.dir
+/mnt-host/build/CMakeFiles/edit_cache.dir
+/mnt-host/build/CMakeFiles/rebuild_cache.dir
